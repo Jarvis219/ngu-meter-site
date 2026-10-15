@@ -1,128 +1,253 @@
+/* Đo Độ Ngu · Ngu Meter — same sticker look as the app: cream, ink outlines, hard shadows. */
 :root {
   --cream: #FFF7E8;
   --ink: #222222;
   --lemon: #FFE45C;
   --pink: #FF8FB1;
+  --pink-soft: #FFD3E1;
   --purple: #A78BFA;
+  --purple-soft: #E4DAFF;
   --muted: #5F5F5F;
   --surface: #FFFFFF;
+  --display: "Baloo 2", ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+  --body: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 * { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background: var(--cream);
   color: var(--ink);
-  font: 17px/1.6 ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font: 17px/1.65 var(--body);
+  /* The app's brain-and-sock pattern, washed out so text stays readable. */
+  background:
+    linear-gradient(rgba(255, 247, 232, .86), rgba(255, 247, 232, .86)),
+    url("pattern.jpg") repeat;
+  background-size: auto, 300px 300px;
+  overflow-x: hidden;
 }
 
-a { color: var(--ink); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+img { max-width: 100%; }
+
+a { color: var(--ink); font-weight: 700; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 a:hover { background: var(--lemon); }
 
+h1, h2, h3, .display { font-family: var(--display); line-height: 1.15; }
+
+/* ---------- Hero ---------- */
 .hero {
+  position: relative;
   text-align: center;
-  padding: 40px 16px 24px;
+  padding: 40px 16px 8px;
+  max-width: 760px;
+  margin: 0 auto;
 }
-.hero img.icon {
-  width: 96px; height: 96px;
-  border-radius: 22px;
+.hero .icon {
+  width: 104px; height: 104px;
+  border-radius: 24px;
   border: 3px solid var(--ink);
-  box-shadow: 4px 4px 0 var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
+  transform: rotate(-4deg);
 }
 .hero h1 {
-  margin: 18px 0 4px;
-  font-size: clamp(28px, 6vw, 40px);
-  font-weight: 900;
-  line-height: 1.15;
+  margin: 18px 0 2px;
+  font-size: clamp(30px, 7vw, 46px);
+  font-weight: 800;
 }
-.hero p { margin: 0; color: var(--muted); font-weight: 600; }
-.hero .date { margin-top: 6px; font-size: 14px; color: var(--muted); }
+.hero .sub { margin: 0; color: var(--muted); font-weight: 700; }
+.hero .date { margin-top: 4px; font-size: 14px; color: var(--muted); }
+.hero .mascot { width: min(230px, 58vw); margin: 10px auto 0; display: block; }
 
-.sticker {
+.wordmark {
   display: inline-block;
-  padding: 4px 16px;
+  margin: 18px 0 4px;
+  padding: 2px 22px 0;
+  font-family: var(--display);
+  font-size: clamp(34px, 9vw, 56px);
+  font-weight: 800;
   background: var(--pink);
-  border: 3px solid var(--ink);
+  border: 4px solid var(--ink);
   border-radius: 999px;
-  font-weight: 900;
-  letter-spacing: .03em;
+  box-shadow: 0 6px 0 var(--ink);
   transform: rotate(-3deg);
 }
 
-.lang { margin-top: 14px; font-weight: 700; }
-.lang a { margin: 0 6px; }
+/* Floating doodle stickers around the hero (decorative). */
+.doodle { position: absolute; width: 46px; pointer-events: none; }
+.doodle.d1 { top: 26px; left: 6%; transform: rotate(-14deg); }
+.doodle.d2 { top: 60px; right: 7%; transform: rotate(12deg); width: 40px; }
+.doodle.d3 { top: 190px; left: 3%; transform: rotate(8deg); width: 38px; }
+.doodle.d4 { top: 210px; right: 4%; transform: rotate(-10deg); width: 44px; }
+@media (prefers-reduced-motion: no-preference) {
+  .doodle { animation: bob 3.2s ease-in-out infinite alternate; }
+  .doodle.d2, .doodle.d4 { animation-delay: -1.6s; }
+  @keyframes bob { to { translate: 0 -8px; } }
+}
 
-.wrap { max-width: 760px; margin: 0 auto; padding: 0 16px 48px; }
+/* Language switch as two sticker pills. */
+.lang { display: flex; gap: 10px; justify-content: center; margin: 18px 0 0; }
+.lang a {
+  padding: 4px 16px;
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 0 3px 0 var(--ink);
+  text-decoration: none;
+  font-size: 15px;
+}
+.lang a:hover { background: var(--lemon); }
+
+/* ---------- Layout ---------- */
+.wrap { max-width: 760px; margin: 0 auto; padding: 8px 16px 40px; }
 
 .card {
+  position: relative;
   background: var(--surface);
   border: 3px solid var(--ink);
   border-radius: 24px;
-  box-shadow: 5px 5px 0 var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
   padding: 20px 22px;
-  margin: 18px 0 26px;
+  margin: 14px 0 30px;
 }
-.card h2 { margin: 0 0 8px; font-size: 20px; font-weight: 900; }
-.card h3 { margin: 18px 0 4px; font-size: 17px; font-weight: 800; }
+.card h2 { margin: 0 0 6px; font-size: 24px; font-weight: 800; }
+.card h3 { margin: 20px 0 2px; font-size: 19px; font-weight: 800; }
+.card h3:first-child { margin-top: 0; }
 .card ul { padding-left: 22px; margin: 8px 0; }
+.card li { margin: 4px 0; }
+.card li::marker { color: var(--pink); }
 .card p { margin: 8px 0; }
 
+/* Section titles = tilted sticker labels, cycling the app's accent colours. */
+.label {
+  display: inline-block;
+  margin: 26px 0 0;
+  padding: 2px 16px 0;
+  font-family: var(--display);
+  font-size: 21px;
+  font-weight: 800;
+  background: var(--lemon);
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 var(--ink);
+  transform: rotate(-2deg);
+}
+.label.pink { background: var(--pink); transform: rotate(1.5deg); }
+.label.purple { background: var(--purple); transform: rotate(-1deg); }
+
+/* Three summary tiles. */
 .summary {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 14px;
-  margin: 18px 0 30px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+  margin: 26px 0 8px;
 }
 .summary div {
   background: var(--lemon);
   border: 3px solid var(--ink);
   border-radius: 20px;
+  box-shadow: 4px 4px 0 var(--ink);
   padding: 14px 16px;
   font-size: 15px;
+  transform: rotate(-1deg);
 }
-.summary div:nth-child(2) { background: #FFD3E1; }
-.summary div:nth-child(3) { background: #E4DAFF; }
-.summary b { display: block; font-size: 17px; margin-bottom: 4px; }
-
-.section-title {
-  font-size: 22px;
-  font-weight: 900;
-  margin: 34px 0 0;
-}
+.summary div:nth-child(2) { background: var(--pink-soft); transform: rotate(1deg); }
+.summary div:nth-child(3) { background: var(--purple-soft); transform: rotate(-.5deg); }
+.summary b { display: block; font-family: var(--display); font-size: 20px; line-height: 1.2; margin-bottom: 4px; }
 
 .divider {
-  border: 0;
-  border-top: 3px dashed var(--ink);
-  margin: 48px 0;
-  opacity: .25;
+  display: flex; align-items: center; gap: 14px;
+  margin: 46px 0 10px;
 }
+.divider::before, .divider::after {
+  content: ""; flex: 1;
+  border-top: 3px dashed var(--ink);
+  opacity: .3;
+}
+.divider img { width: 64px; }
 
-.mascot { display: block; margin: 0 auto; width: min(220px, 60vw); height: auto; }
+/* ---------- Landing ---------- */
+.tagline { font-family: var(--display); font-size: clamp(24px, 6vw, 34px); font-weight: 800; margin: 6px 0 0; }
+.tagline small { display: block; font-size: .6em; color: var(--muted); font-weight: 700; }
 
-.buttons { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin: 22px 0; }
+.tiers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 18px 0 6px;
+}
+.tiers figure {
+  margin: 0;
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 10px 8px 8px;
+  text-align: center;
+}
+.tiers figure:nth-child(odd) { transform: rotate(-1.5deg); }
+.tiers figure:nth-child(even) { transform: rotate(1.5deg); }
+.tiers img { width: 100%; max-width: 120px; aspect-ratio: 1; object-fit: contain; }
+.tiers figcaption { font-family: var(--display); font-weight: 800; font-size: 15px; line-height: 1.2; }
+.tiers .score { display: inline-block; margin-top: 4px; padding: 0 10px; background: var(--lemon); border: 2px solid var(--ink); border-radius: 999px; font-size: 13px; font-weight: 800; }
+
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 18px 0; }
+.features div {
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 14px 16px;
+}
+.features img { width: 40px; height: 40px; object-fit: contain; float: right; margin-left: 8px; }
+.features b { display: block; font-family: var(--display); font-size: 20px; line-height: 1.2; }
+
+.buttons { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin: 26px 0; }
 .button {
   display: inline-block;
-  padding: 12px 22px;
+  padding: 12px 24px;
   background: var(--lemon);
   border: 3px solid var(--ink);
-  border-radius: 18px;
-  box-shadow: 0 4px 0 var(--ink);
-  font-weight: 900;
+  border-radius: 20px;
+  box-shadow: 0 5px 0 var(--ink);
+  font-family: var(--display);
+  font-size: 19px;
+  font-weight: 800;
   text-decoration: none;
+  transition: transform .08s, box-shadow .08s;
 }
 .button.secondary { background: var(--surface); }
-.button:hover { transform: translateY(2px); box-shadow: 0 2px 0 var(--ink); background: var(--lemon); }
+.button:hover { transform: translateY(3px); box-shadow: 0 2px 0 var(--ink); background: var(--lemon); }
 .button.secondary:hover { background: var(--surface); }
 
+.soon {
+  text-align: center;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* ---------- Footer ---------- */
 footer {
   text-align: center;
   color: var(--muted);
   font-size: 14px;
-  padding: 0 16px 40px;
+  padding: 10px 16px 44px;
+}
+footer .disclaimer {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 4px 14px;
+  background: var(--surface);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  color: var(--ink);
+  font-weight: 700;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 520px) {
   body { font-size: 16px; }
-  .card { padding: 16px; border-radius: 20px; }
+  .card { padding: 16px; border-radius: 20px; box-shadow: 4px 4px 0 var(--ink); }
+  .doodle { width: 34px; }
+  .doodle.d3, .doodle.d4 { display: none; }
+  .tiers { grid-template-columns: repeat(2, 1fr); }
 }
