@@ -3,7 +3,7 @@
 
 Both languages share one layout, so edit COPY below and re-run:  python3 scripts/build_pages.py
 """
-import html, json, os
+import hashlib, html, json, os, re
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 BASE = "https://jarvis219.github.io/ngu-meter-site/"
@@ -125,6 +125,10 @@ COPY = {
 }
 
 
+# Cache-busting: the stylesheet URL changes whenever its content does.
+CSS_VERSION = hashlib.sha1(open(os.path.join(ROOT, "assets", "style.css"), "rb").read()).hexdigest()[:8]
+
+
 def esc(s):
     return html.escape(s, quote=True)
 
@@ -180,6 +184,7 @@ def page(lang):
     faq = "".join(f"""
         <details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>""" for q, a in c["faq"])
 
+    css = f"{up}assets/style.css?v={CSS_VERSION}"
     return f"""<!doctype html>
 <html lang="{c['html_lang']}">
 <head>
@@ -214,7 +219,7 @@ def page(lang):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="{shot('01-home')}" type="image/webp">
-<link rel="stylesheet" href="{up}assets/style.css">
+<link rel="stylesheet" href="{css}">
 <script type="application/ld+json">{json.dumps(app_ld, ensure_ascii=False)}</script>
 <script type="application/ld+json">{json.dumps(faq_ld, ensure_ascii=False)}</script>
 </head>
@@ -312,6 +317,11 @@ if __name__ == "__main__":
     open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8").write(page("vi"))
     os.makedirs(os.path.join(ROOT, "en"), exist_ok=True)
     open(os.path.join(ROOT, "en", "index.html"), "w", encoding="utf-8").write(page("en"))
+    # Privacy, support and 404 are hand-written: just refresh their stylesheet version.
+    for other in ["privacy/index.html", "support/index.html", "404.html"]:
+        path = os.path.join(ROOT, other)
+        text = re.sub(r'(assets/style\.css)(\?v=[0-9a-f]+)?"', rf'\1?v={CSS_VERSION}"', open(path).read())
+        open(path, "w").write(text)
     pages = ["", "en/", "privacy/", "support/"]
     sitemap = "".join(f"  <url><loc>{BASE}{p}</loc><lastmod>2026-10-16</lastmod></url>\n" for p in pages)
     open(os.path.join(ROOT, "sitemap.xml"), "w").write(
