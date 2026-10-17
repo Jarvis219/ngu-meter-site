@@ -32,7 +32,7 @@ COPY = {
         ],
         "features_title": "Có gì trong app?",
         "features": [
-            ("sticker-swirl", "Hơn 3.000 câu", "Đố mẹo, câu lừa, logic, tình huống vô tri và kiến thức “ủa thật hả?”."),
+            ("sticker-swirl", "Hơn 5.000 câu", "Đố mẹo, câu lừa, logic, tình huống vô tri và kiến thức “ủa thật hả?”."),
             ("sticker-bolt", "Độ xoắn não", "Mỗi lượt 2 câu dễ, 4 câu vừa, 4 câu khó. Có biểu tượng 🔥 báo trước."),
             ("sticker-question", "Giải thích “Vì sao?”", "Câu khó nào cũng có lời giải ngắn, đọc xong là “à ra thế”."),
             ("sticker-star", "Đề hôm nay & chuỗi ngày", "Cả thế giới chung 10 câu mỗi ngày. Giữ chuỗi 🔥, có nhắc nhở nếu muốn."),
@@ -87,7 +87,7 @@ COPY = {
         ],
         "features_title": "What's inside",
         "features": [
-            ("sticker-swirl", "3,000+ questions", "Riddles, trick questions, logic, everyday chaos and “wait, really?” trivia."),
+            ("sticker-swirl", "5,000+ questions", "Riddles, trick questions, logic, everyday chaos and “wait, really?” trivia."),
             ("sticker-bolt", "Brain-twist meter", "Every round: 2 easy, 4 medium, 4 hard, with 🔥 flames as a warning."),
             ("sticker-question", "“Why?” explanations", "Every hard question explains itself in one line. Instant “ohh”."),
             ("sticker-star", "Daily quiz & streaks", "Everyone gets the same 10 questions each day. Keep your 🔥 streak, with optional reminders."),
