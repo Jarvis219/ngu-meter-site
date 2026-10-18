@@ -4,7 +4,8 @@
 Run from this repo's root:  python3 scripts/build_assets.py
 Expects the app repo next to this one (../ngu-meter) and the generated art in ~/Downloads/ngu_assets.
 Writes assets/screens/*.webp, assets/badges/*.webp, assets/og-*.png, assets/apple-touch-icon.png, assets/favicon-32.png,
-and right-sized WebP copies of the icon, tier mascots and stickers for the landing page (assets/web/).
+assets/sticker-*.png (cut from the sprite), and right-sized WebP copies of the icon, tier mascots and stickers
+for the landing page (assets/web/).
 """
 import math, os
 from PIL import Image, ImageDraw, ImageFont
@@ -51,6 +52,44 @@ def icons():
     icon = Image.open(os.path.join(SITE, "icon.png")).convert("RGB")
     icon.resize((180, 180), Image.LANCZOS).save(os.path.join(SITE, "apple-touch-icon.png"), optimize=True)
     icon.resize((32, 32), Image.LANCZOS).save(os.path.join(SITE, "favicon-32.png"), optimize=True)
+
+
+# Sticker sprite (4x3 grid, transparent background), read in rows.
+STICKER_GRID = [["question", "exclaim", "sparkle", "bolt"],
+                ["swirl", "drop", "star", "tape"],
+                ["bubble", "arrow", "squiggle", "sock"]]
+
+
+def stickers(max_side=360):
+    """Cut each sticker out of the sprite along its own white outline (connected alpha blob), so no
+    sticker is clipped or carries slivers of its neighbours. Writes assets/sticker-<name>.png."""
+    import numpy as np
+    from scipy import ndimage
+    sheet = Image.open(os.path.join(ART, "stickers.png")).convert("RGBA")
+    alpha = np.array(sheet)[:, :, 3] > 8
+    labels, count = ndimage.label(alpha)
+    sizes = ndimage.sum(alpha, labels, range(1, count + 1))
+    rows, cols = len(STICKER_GRID), len(STICKER_GRID[0])
+    cells = {}
+    for label, size in enumerate(sizes, 1):
+        if size < 2000:  # specks
+            continue
+        ys, xs = np.nonzero(labels == label)
+        r, c = int(ys.mean() * rows / sheet.height), int(xs.mean() * cols / sheet.width)
+        cells.setdefault((r, c), []).append(label)
+    for (r, c), group in cells.items():
+        mask = np.isin(labels, group)
+        ys, xs = np.nonzero(mask)
+        box = (int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1)
+        piece = np.array(sheet)
+        piece[~mask] = 0  # drop anything that isn't this sticker
+        im = Image.fromarray(piece).crop(box)
+        pad = 4
+        out = Image.new("RGBA", (im.width + 2 * pad, im.height + 2 * pad), (0, 0, 0, 0))
+        out.paste(im, (pad, pad))
+        out.thumbnail((max_side, max_side), Image.LANCZOS)
+        out.save(os.path.join(SITE, f"sticker-{STICKER_GRID[r][c]}.png"), optimize=True)
+    assert len(cells) == rows * cols, f"expected {rows * cols} stickers, found {len(cells)}"
 
 
 def web_images():
@@ -122,6 +161,7 @@ if __name__ == "__main__":
     screens()
     badges()
     icons()
+    stickers()
     web_images()
     og_image("vi", "Não bạn đang\nđi nghỉ phép?", "10 câu đố vui xoắn não.\nMột kết quả đáng ngờ.")
     og_image("en", "Is your brain\non vacation?", "10 brain-twisting questions.\nOne questionable result.")
