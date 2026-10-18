@@ -2,6 +2,7 @@
 """Generates the landing pages: index.html (Vietnamese) and en/index.html (English).
 
 Both languages share one layout, so edit COPY below and re-run:  python3 scripts/build_pages.py
+The "try it" quiz reads its questions from the app repo next to this one (../ngu-meter), by id (DEMO_IDS).
 """
 import hashlib, html, json, os, re
 
@@ -10,6 +11,11 @@ BASE = "https://jarvis219.github.io/ngu-meter-site/"
 EMAIL = "jarvis.219.studio@gmail.com"
 SCREEN_W, SCREEN_H = 560, 1217   # assets/screens/*.webp (iPhone 6.9" captures)
 CARD_W, CARD_H = 540, 960         # share card
+CONTENT = os.path.join(ROOT, "..", "ngu-meter", "NguMeter", "Resources", "content.json")
+# Gotchas for the on-page quiz: short, fair, and funny in both languages. A round shows DEMO_PER_ROUND of them.
+DEMO_IDS = ["q6568", "q6345", "q6354", "q6386", "q6495", "q6903", "q6958", "q6962", "q6974", "q6793", "q6886", "q7036"]
+DEMO_PER_ROUND = 5
+TIER_MAX = [14, 34, 54, 74, 94, 100]  # upper score of each tier, as in the app
 
 COPY = {
     "vi": {
@@ -17,13 +23,22 @@ COPY = {
         "title": "Đo Độ Ngu – Game đố vui xoắn não, câu đố mẹo vô tri cho iPhone",
         "description": "10 câu đố vui, câu lừa và câu xoắn não trong 1 phút. Nhận điểm vô tri, mở khoá huy hiệu, thách bạn bè bằng mã QR. Miễn phí, không quảng cáo, không cần mạng.",
         "brand": "Đo Độ Ngu", "wordmark": "ĐO ĐỘ NGU",
-        "nav": [("cach-choi", "Cách chơi"), ("tinh-nang", "Tính năng"), ("hoi-dap", "Hỏi đáp")],
+        "nav": [("thu-ngay", "Thử ngay"), ("cach-choi", "Cách chơi"), ("tinh-nang", "Tính năng"), ("hoi-dap", "Hỏi đáp")],
         "switch": ("English", "en/"),
         "eyebrow": "Game đố vui cho iPhone & iPad",
-        "h1": "Não bạn đang <mark>đi nghỉ phép</mark>?",
+        "h1": "Não bạn đang <mark>đi&nbsp;nghỉ&nbsp;phép</mark>?",
         "lead": "10 câu đố mẹo, câu lừa và câu xoắn não. Khoảng 1 phút. Một kết quả rất đáng ngờ, kèm danh hiệu để khoe với cả nhóm.",
-        "cta": "Sắp có trên App Store", "cta2": "Xem cách chơi",
+        "cta": "Sắp có trên App Store", "cta2": "Thử 5 câu ngay",
         "chips": ["Miễn phí", "Không quảng cáo", "Không cần mạng", "Tiếng Việt & English"],
+        "demo": {
+            "title": "Thử 5 câu ngay", "lead": "Không cần cài app. Đọc kỹ từng chữ nhé: câu nào cũng có bẫy.",
+            "progress": "Câu {n}/{total}", "next": "Câu tiếp", "finish": "Xem kết quả", "why": "Vì sao?",
+            "score": "Điểm vô tri", "wrong": "Sai {w}/{t} câu",
+            "more": "Trong app còn hơn 5.000 câu như thế, kèm huy hiệu, đề hôm nay và thách đấu bạn bè.",
+            "again": "Chơi lượt khác", "answer": "Đáp án",
+            "nojs": "Xem thử vài câu bên dưới (bật JavaScript để chơi thật).",
+        },
+        "showcase_points": ["Mascot đổi nét mặt theo từng câu trả lời", "Câu khó nào cũng có lời giải “Vì sao?”", "Chơi xong mở khoá huy hiệu mới"],
         "how_title": "Chơi thế nào?", "how_lead": "Ba bước, một phút, vô số tranh cãi trong nhóm chat.",
         "steps": [
             ("02-hard-question", "Trả lời 10 câu", "Khởi động nhẹ nhàng rồi tăng dần độ khó. 4 câu cuối là xoắn não thật sự 🔥🔥🔥."),
@@ -61,7 +76,7 @@ COPY = {
             ("Chơi được trên iPad không?", "Được. App hỗ trợ cả iPhone và iPad, xoay ngang dọc thoải mái trên iPad."),
         ],
         "final_title": "Sẵn sàng cho não đi nghỉ phép?",
-        "final_lead": "Đo Độ Ngu sắp có mặt trên App Store. Trong lúc chờ, hãy đoán xem bạn được mấy điểm vô tri.",
+        "final_lead": "Đo Độ Ngu sắp có mặt trên App Store. Trong lúc chờ, thử 5 câu xem bạn được mấy điểm vô tri.",
         "footer_privacy": "Quyền riêng tư", "footer_support": "Hỗ trợ",
         "disclaimer": "Chỉ để giải trí, không phải bài kiểm tra IQ.",
         "skip": "Bỏ qua tới nội dung",
@@ -72,13 +87,22 @@ COPY = {
         "title": "Ngu Meter – Brain Teasers, Riddles & Trick Questions Quiz for iPhone",
         "description": "10 riddles, trick questions and brain twisters in a minute. Get a chaos score, unlock badges and challenge friends with a QR code. Free, no ads, works offline.",
         "brand": "Ngu Meter", "wordmark": "NGU METER",
-        "nav": [("how", "How it works"), ("features", "Features"), ("faq", "FAQ")],
+        "nav": [("try", "Try it"), ("how", "How it works"), ("features", "Features"), ("faq", "FAQ")],
         "switch": ("Tiếng Việt", "../"),
         "eyebrow": "A silly quiz for iPhone & iPad",
-        "h1": "Is your brain <mark>on vacation</mark>?",
+        "h1": "Is your brain <mark>on&nbsp;vacation</mark>?",
         "lead": "10 riddles, trick questions and brain twisters. About a minute. One very questionable result, plus a title to show off to the group chat.",
-        "cta": "Coming soon to the App Store", "cta2": "See how it works",
+        "cta": "Coming soon to the App Store", "cta2": "Try 5 questions",
         "chips": ["Free", "No ads", "Works offline", "English & Tiếng Việt"],
+        "demo": {
+            "title": "Try 5 questions now", "lead": "No install needed. Read every word: each one has a trap.",
+            "progress": "Question {n} of {total}", "next": "Next", "finish": "See my result", "why": "Why?",
+            "score": "Chaos score", "wrong": "{w} of {t} wrong",
+            "more": "The app has 5,000+ more like these, plus badges, a daily quiz and challenges with friends.",
+            "again": "Play another round", "answer": "Answer",
+            "nojs": "Here are a few (turn on JavaScript to play for real).",
+        },
+        "showcase_points": ["The mascot reacts to every answer", "Every hard question explains itself", "Finished rounds unlock new badges"],
         "how_title": "How it works", "how_lead": "Three steps, one minute, endless group-chat arguments.",
         "steps": [
             ("02-hard-question", "Answer 10 questions", "A gentle warm-up that ramps up. The last four are proper brain twisters 🔥🔥🔥."),
@@ -116,7 +140,7 @@ COPY = {
             ("Does it work on iPad?", "Yes. It supports iPhone and iPad, in any orientation on iPad."),
         ],
         "final_title": "Ready to send your brain on vacation?",
-        "final_lead": "Ngu Meter is coming soon to the App Store. Meanwhile, guess your chaos score.",
+        "final_lead": "Ngu Meter is coming soon to the App Store. Meanwhile, try 5 questions and see your chaos score.",
         "footer_privacy": "Privacy", "footer_support": "Support",
         "disclaimer": "For entertainment only, not an IQ test.",
         "skip": "Skip to content",
@@ -127,6 +151,47 @@ COPY = {
 
 # Cache-busting: the stylesheet URL changes whenever its content does.
 CSS_VERSION = hashlib.sha1(open(os.path.join(ROOT, "assets", "style.css"), "rb").read()).hexdigest()[:8]
+JS_VERSION = hashlib.sha1(open(os.path.join(ROOT, "assets", "demo.js"), "rb").read()).hexdigest()[:8]
+
+
+def demo_html(c, lang, up):
+    """The "try it" quiz: a static list (no-JS fallback, and readable by crawlers) plus data for assets/demo.js."""
+    pack = json.load(open(CONTENT, encoding="utf-8"))
+    by_id = {q["id"]: q for q in pack["questions"]}
+    d = c["demo"]
+    questions = []
+    for qid in DEMO_IDS:
+        q = by_id[qid]
+        questions.append({
+            "prompt": q["prompt"][lang],
+            "answers": [{"text": a["text"][lang], "correct": a["id"] == q["correctAnswerID"]} for a in q["answers"]],
+            "why": q["explanation"][lang],
+        })
+    data = {
+        "perRound": DEMO_PER_ROUND, "questions": questions, "text": d,
+        "reactions": {k: [r[lang] for r in v] for k, v in pack["reactions"].items()},
+        "tiers": [{"title": t, "max": m, "image": f"{up}assets/web/tier-{i}.webp"} for i, ((t, _), m) in enumerate(zip(c["tiers"], TIER_MAX))],
+    }
+    static = "".join(f"""
+        <li><p>{esc(q['prompt'])}</p><details><summary>{esc(d['answer'])}</summary><p><b>{esc(next(a['text'] for a in q['answers'] if a['correct']))}</b>. {esc(q['why'])}</p></details></li>"""
+                     for q in questions[:DEMO_PER_ROUND])
+    blob = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
+    return f"""  <section id="{c['nav'][0][0]}" class="block demo">
+    <div class="demo-intro">
+      <h2 class="label">{esc(d['title'])}</h2>
+      <p class="block-lead">{esc(d['lead'])}</p>
+      <img class="demo-mascot" src="{up}assets/web/tier-1.webp" width="150" height="150" alt="" loading="lazy">
+    </div>
+    <div class="demo-play">
+      <div class="demo-card" aria-live="polite"></div>
+      <div class="demo-static">
+        <p>{esc(d['nojs'])}</p>
+        <ol>{static}
+        </ol>
+      </div>
+    </div>
+    <script type="application/json" id="demo-data">{blob}</script>
+  </section>"""
 
 
 def esc(s):
@@ -167,7 +232,7 @@ def page(lang):
         </li>""" for n, (name, t, d) in enumerate(c["steps"], 1))
     features = "".join(f"""
         <li class="feature">
-          <img src="{up}assets/{icon}.png" width="56" height="56" alt="" loading="lazy">
+          <img src="{up}assets/web/{icon}.webp" width="56" height="56" alt="" loading="lazy">
           <h3>{esc(t)}</h3>
           <p>{esc(d)}</p>
         </li>""" for icon, t, d in c["features"])
@@ -177,7 +242,7 @@ def page(lang):
           <figcaption>{esc(cap)}</figcaption>
         </figure>""" for name, cap in c["showcase"])
     tiers = "".join(f"""
-        <figure><img src="{up}assets/tier-{i}.png" width="120" height="120" loading="lazy" alt=""><figcaption>{esc(t)}<br><span class="score">{r}</span></figcaption></figure>"""
+        <figure><img src="{up}assets/web/tier-{i}.webp" width="120" height="120" loading="lazy" alt=""><figcaption>{esc(t)}<br><span class="score">{r}</span></figcaption></figure>"""
                     for i, (t, r) in enumerate(c["tiers"]))
     badges = "".join(f"""
         <li><img src="{up}assets/badges/{b}.webp" width="96" height="96" loading="lazy" alt=""><span>{esc(t)}</span></li>""" for b, t in c["badges"])
@@ -220,6 +285,7 @@ def page(lang):
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="{shot('01-home')}" type="image/webp">
 <link rel="stylesheet" href="{css}">
+<script src="{up}assets/demo.js?v={JS_VERSION}" defer></script>
 <script type="application/ld+json">{json.dumps(app_ld, ensure_ascii=False)}</script>
 <script type="application/ld+json">{json.dumps(faq_ld, ensure_ascii=False)}</script>
 </head>
@@ -227,7 +293,7 @@ def page(lang):
 <a class="skip" href="#main">{esc(c['skip'])}</a>
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="brand" href="{BASE}{c['path']}"><img src="{up}assets/icon.png" width="36" height="36" alt=""><span>{esc(c['brand'])}</span></a>
+    <a class="brand" href="{BASE}{c['path']}"><img src="{up}assets/web/icon.webp" width="36" height="36" alt=""><span>{esc(c['brand'])}</span></a>
     <nav aria-label="{esc(c['brand'])}">{nav}</nav>
     <a class="lang-switch" href="{c['switch'][1]}" hreflang="{other}" lang="{other}">{esc(c['switch'][0])}</a>
   </div>
@@ -235,34 +301,36 @@ def page(lang):
 
 <main id="main">
   <section class="hero">
-    <img class="doodle d1" src="{up}assets/sticker-question.png" alt="">
-    <img class="doodle d2" src="{up}assets/sticker-sparkle.png" alt="">
-    <img class="doodle d3" src="{up}assets/sticker-bolt.png" alt="">
-    <img class="doodle d4" src="{up}assets/sticker-sock.png" alt="">
+    <img class="doodle d1" src="{up}assets/web/sticker-question.webp" alt="">
+    <img class="doodle d2" src="{up}assets/web/sticker-sparkle.webp" alt="">
+    <img class="doodle d3" src="{up}assets/web/sticker-bolt.webp" alt="">
+    <img class="doodle d4" src="{up}assets/web/sticker-sock.webp" alt="">
     <div class="hero-copy">
       <p class="eyebrow"><span class="wordmark-sm">{esc(c['wordmark'])}</span> {esc(c['eyebrow'])}</p>
       <h1>{c['h1']}</h1>
       <p class="lead">{esc(c['lead'])}</p>
       <div class="cta-row">
-        <span class="button app-store" role="link" aria-disabled="true"><img src="{up}assets/sticker-star.png" width="24" height="24" alt="">{esc(c['cta'])}</span>
-        <a class="button secondary" href="#{c['nav'][0][0]}">{esc(c['cta2'])}</a>
+        <a class="button" href="#{c['nav'][0][0]}">{esc(c['cta2'])}</a>
+        <span class="button app-store" role="link" aria-disabled="true"><img src="{up}assets/web/sticker-star.webp" width="24" height="24" alt="">{esc(c['cta'])}</span>
       </div>
       <ul class="chips">{chips}</ul>
     </div>
     <div class="hero-art">
       <div class="phone phone-hero"><img src="{shot('01-home')}" width="{SCREEN_W}" height="{SCREEN_H}" fetchpriority="high" alt="{esc(c['phone_alt'])}"></div>
-      <img class="hero-mascot" src="{up}assets/tier-4.png" width="190" height="190" alt="">
+      <img class="hero-mascot" src="{up}assets/web/tier-4.webp" width="190" height="190" alt="">
     </div>
   </section>
 
-  <section id="{c['nav'][0][0]}" class="block">
+{demo_html(c, lang, up)}
+
+  <section id="{c['nav'][1][0]}" class="block">
     <h2 class="label">{esc(c['how_title'])}</h2>
     <p class="block-lead">{esc(c['how_lead'])}</p>
     <ol class="steps">{steps}
     </ol>
   </section>
 
-  <section id="{c['nav'][1][0]}" class="block">
+  <section id="{c['nav'][2][0]}" class="block">
     <h2 class="label pink">{esc(c['features_title'])}</h2>
     <ul class="features">{features}
     </ul>
@@ -272,6 +340,7 @@ def page(lang):
     <div>
       <h2 class="label purple">{esc(c['showcase_title'])}</h2>
       <p class="block-lead">{esc(c['showcase_lead'])}</p>
+      <ul class="checks">{"".join(f"<li>{esc(t)}</li>" for t in c['showcase_points'])}</ul>
     </div>
     <div class="showcase-phones">{showcase}
     </div>
@@ -289,17 +358,20 @@ def page(lang):
     </ul>
   </section>
 
-  <section id="{c['nav'][2][0]}" class="block">
+  <section id="{c['nav'][3][0]}" class="block">
     <h2 class="label purple">{esc(c['faq_title'])}</h2>
     <div class="faq">{faq}
     </div>
   </section>
 
   <section class="block final">
-    <img src="{up}assets/tier-5.png" width="160" height="160" alt="" loading="lazy">
+    <img src="{up}assets/web/tier-5.webp" width="160" height="160" alt="" loading="lazy">
     <h2>{esc(c['final_title'])}</h2>
     <p>{esc(c['final_lead'])}</p>
-    <span class="button app-store" role="link" aria-disabled="true"><img src="{up}assets/sticker-star.png" width="24" height="24" alt="">{esc(c['cta'])}</span>
+    <div class="cta-row final-cta">
+      <a class="button" href="#{c['nav'][0][0]}">{esc(c['cta2'])}</a>
+      <span class="button app-store" role="link" aria-disabled="true"><img src="{up}assets/web/sticker-star.webp" width="24" height="24" alt="">{esc(c['cta'])}</span>
+    </div>
   </section>
 </main>
 
