@@ -338,6 +338,9 @@ footer .disclaimer {
 .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
 .step { position: relative; background: var(--surface); border: 3px solid var(--ink); border-radius: 26px; box-shadow: 6px 6px 0 var(--ink); padding: 22px 20px; }
 .step .phone { width: 72%; margin: 0 auto 16px; box-shadow: 6px 6px 0 var(--ink); }
+/* Every step shows the same phone; the 9:16 share card sits in it like a story viewed full screen. */
+.step .phone { aspect-ratio: 560 / 1217; }
+.step .phone-card { border-radius: 38px; background: #1B1B1B; display: flex; align-items: center; }
 .step h3 { font-size: 22px; margin: 0 0 4px; }
 .step p { margin: 0; color: #3a3a3a; }
 .step-num {
