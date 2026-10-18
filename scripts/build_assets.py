@@ -3,7 +3,8 @@
 
 Run from this repo's root:  python3 scripts/build_assets.py
 Expects the app repo next to this one (../ngu-meter) and the generated art in ~/Downloads/ngu_assets.
-Writes assets/screens/*.webp, assets/badges/*.webp, assets/og-*.png, assets/apple-touch-icon.png, assets/favicon-32.png
+Writes assets/screens/*.webp, assets/badges/*.webp, assets/og-*.png, assets/apple-touch-icon.png, assets/favicon-32.png,
+and right-sized WebP copies of the icon, tier mascots and stickers for the landing page (assets/web/).
 """
 import math, os
 from PIL import Image, ImageDraw, ImageFont
@@ -50,6 +51,19 @@ def icons():
     icon = Image.open(os.path.join(SITE, "icon.png")).convert("RGB")
     icon.resize((180, 180), Image.LANCZOS).save(os.path.join(SITE, "apple-touch-icon.png"), optimize=True)
     icon.resize((32, 32), Image.LANCZOS).save(os.path.join(SITE, "favicon-32.png"), optimize=True)
+
+
+def web_images():
+    """The landing page shows these PNGs small; serve WebP at twice their largest on-screen size."""
+    out = os.path.join(SITE, "web")
+    os.makedirs(out, exist_ok=True)
+    sizes = {"icon": 72}
+    sizes.update({f"tier-{i}": 380 for i in range(6)})
+    sizes.update({f"sticker-{n}": 112 for n in ("bolt", "drop", "exclaim", "question", "sock", "sparkle", "star", "swirl")})
+    for name, px in sizes.items():
+        im = Image.open(os.path.join(SITE, f"{name}.png")).convert("RGBA")
+        im.thumbnail((px, px), Image.LANCZOS)
+        im.save(os.path.join(out, f"{name}.webp"), quality=86, method=6)
 
 
 def og_image(lang, title, subtitle):
@@ -108,6 +122,7 @@ if __name__ == "__main__":
     screens()
     badges()
     icons()
+    web_images()
     og_image("vi", "Não bạn đang\nđi nghỉ phép?", "10 câu đố vui xoắn não.\nMột kết quả đáng ngờ.")
     og_image("en", "Is your brain\non vacation?", "10 brain-twisting questions.\nOne questionable result.")
     print("assets built")

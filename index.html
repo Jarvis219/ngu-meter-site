@@ -32,7 +32,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/screens/vi-01-home.webp" type="image/webp">
-<link rel="stylesheet" href="assets/style.css?v=6d81b339">
+<link rel="stylesheet" href="assets/style.css?v=ca1fabe7">
+<script src="assets/demo.js?v=93cfd3c3" defer></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "MobileApplication", "name": "Đo Độ Ngu", "alternateName": "Ngu Meter", "operatingSystem": "iOS 17 or later", "applicationCategory": "GameApplication", "applicationSubCategory": "Trivia", "inLanguage": ["vi", "en"], "description": "10 câu đố vui, câu lừa và câu xoắn não trong 1 phút. Nhận điểm vô tri, mở khoá huy hiệu, thách bạn bè bằng mã QR. Miễn phí, không quảng cáo, không cần mạng.", "url": "https://jarvis219.github.io/ngu-meter-site/", "image": "https://jarvis219.github.io/ngu-meter-site/assets/og-vi.png", "screenshot": ["https://jarvis219.github.io/ngu-meter-site/assets/screens/vi-01-home.webp", "https://jarvis219.github.io/ngu-meter-site/assets/screens/vi-02-hard-question.webp", "https://jarvis219.github.io/ngu-meter-site/assets/screens/vi-04-result.webp"], "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@type": "Person", "name": "Jarvis Tran"}, "isAccessibleForFree": true}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Đo Độ Ngu có mất phí không?", "acceptedAnswer": {"@type": "Answer", "text": "Miễn phí hoàn toàn. Không quảng cáo, không mua trong app."}}, {"@type": "Question", "name": "Đây có phải bài kiểm tra IQ không?", "acceptedAnswer": {"@type": "Answer", "text": "Không. Điểm vô tri chỉ để giải trí, không đo trí thông minh hay giá trị của ai cả. Trò đùa nhắm vào tình huống, không nhắm vào bạn."}}, {"@type": "Question", "name": "Có cần mạng để chơi không?", "acceptedAnswer": {"@type": "Answer", "text": "Không. Cả câu hỏi, đề hôm nay và thách đấu đều chạy offline. Mã thách đấu tự chứa đủ thông tin để dựng lại đúng đề."}}, {"@type": "Question", "name": "Thách đấu bạn bè thế nào?", "acceptedAnswer": {"@type": "Answer", "text": "Chơi xong, gửi ảnh kết quả hoặc mã 8 ký tự. Bạn bè quét QR hoặc bấm “Có mã thách đấu?” rồi dán vào là chơi đúng 10 câu của bạn."}}, {"@type": "Question", "name": "App có thu thập dữ liệu không?", "acceptedAnswer": {"@type": "Answer", "text": "Không. Không tài khoản, không theo dõi, không máy chủ. Lịch sử và thành tích chỉ nằm trên máy bạn."}}, {"@type": "Question", "name": "Chơi được trên iPad không?", "acceptedAnswer": {"@type": "Answer", "text": "Được. App hỗ trợ cả iPhone và iPad, xoay ngang dọc thoải mái trên iPad."}}]}</script>
 </head>
@@ -40,32 +41,54 @@
 <a class="skip" href="#main">Bỏ qua tới nội dung</a>
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="brand" href="https://jarvis219.github.io/ngu-meter-site/"><img src="assets/icon.png" width="36" height="36" alt=""><span>Đo Độ Ngu</span></a>
-    <nav aria-label="Đo Độ Ngu"><a href="#cach-choi">Cách chơi</a><a href="#tinh-nang">Tính năng</a><a href="#hoi-dap">Hỏi đáp</a></nav>
+    <a class="brand" href="https://jarvis219.github.io/ngu-meter-site/"><img src="assets/web/icon.webp" width="36" height="36" alt=""><span>Đo Độ Ngu</span></a>
+    <nav aria-label="Đo Độ Ngu"><a href="#thu-ngay">Thử ngay</a><a href="#cach-choi">Cách chơi</a><a href="#tinh-nang">Tính năng</a><a href="#hoi-dap">Hỏi đáp</a></nav>
     <a class="lang-switch" href="en/" hreflang="en" lang="en">English</a>
   </div>
 </header>
 
 <main id="main">
   <section class="hero">
-    <img class="doodle d1" src="assets/sticker-question.png" alt="">
-    <img class="doodle d2" src="assets/sticker-sparkle.png" alt="">
-    <img class="doodle d3" src="assets/sticker-bolt.png" alt="">
-    <img class="doodle d4" src="assets/sticker-sock.png" alt="">
+    <img class="doodle d1" src="assets/web/sticker-question.webp" alt="">
+    <img class="doodle d2" src="assets/web/sticker-sparkle.webp" alt="">
+    <img class="doodle d3" src="assets/web/sticker-bolt.webp" alt="">
+    <img class="doodle d4" src="assets/web/sticker-sock.webp" alt="">
     <div class="hero-copy">
       <p class="eyebrow"><span class="wordmark-sm">ĐO ĐỘ NGU</span> Game đố vui cho iPhone &amp; iPad</p>
-      <h1>Não bạn đang <mark>đi nghỉ phép</mark>?</h1>
+      <h1>Não bạn đang <mark>đi&nbsp;nghỉ&nbsp;phép</mark>?</h1>
       <p class="lead">10 câu đố mẹo, câu lừa và câu xoắn não. Khoảng 1 phút. Một kết quả rất đáng ngờ, kèm danh hiệu để khoe với cả nhóm.</p>
       <div class="cta-row">
-        <span class="button app-store" role="link" aria-disabled="true"><img src="assets/sticker-star.png" width="24" height="24" alt="">Sắp có trên App Store</span>
-        <a class="button secondary" href="#cach-choi">Xem cách chơi</a>
+        <a class="button" href="#thu-ngay">Thử 5 câu ngay</a>
+        <span class="button app-store" role="link" aria-disabled="true"><img src="assets/web/sticker-star.webp" width="24" height="24" alt="">Sắp có trên App Store</span>
       </div>
       <ul class="chips"><li>Miễn phí</li><li>Không quảng cáo</li><li>Không cần mạng</li><li>Tiếng Việt &amp; English</li></ul>
     </div>
     <div class="hero-art">
       <div class="phone phone-hero"><img src="assets/screens/vi-01-home.webp" width="560" height="1217" fetchpriority="high" alt="Màn hình chính của Đo Độ Ngu trên iPhone"></div>
-      <img class="hero-mascot" src="assets/tier-4.png" width="190" height="190" alt="">
+      <img class="hero-mascot" src="assets/web/tier-4.webp" width="190" height="190" alt="">
     </div>
+  </section>
+
+  <section id="thu-ngay" class="block demo">
+    <div class="demo-intro">
+      <h2 class="label">Thử 5 câu ngay</h2>
+      <p class="block-lead">Không cần cài app. Đọc kỹ từng chữ nhé: câu nào cũng có bẫy.</p>
+      <img class="demo-mascot" src="assets/web/tier-1.webp" width="150" height="150" alt="" loading="lazy">
+    </div>
+    <div class="demo-play">
+      <div class="demo-card" aria-live="polite"></div>
+      <div class="demo-static">
+        <p>Xem thử vài câu bên dưới (bật JavaScript để chơi thật).</p>
+        <ol>
+        <li><p>Đội A ghi bàn mở tỉ số và cả bàn thắng cuối cùng của trận đấu. Đội A có thắng không?</p><details><summary>Đáp án</summary><p><b>Chưa chắc</b>. Chưa chắc. A dẫn 1–0, B ghi liền 3 bàn, rồi A ghi thêm 1: A có bàn đầu và bàn cuối nhưng vẫn thua 2–3.</p></details></li>
+        <li><p>Có 10 cây nến đang cháy. Bạn thổi tắt 3 cây. Còn mấy cây nến đang cháy?</p><details><summary>Đáp án</summary><p><b>7 cây</b>. 7 cây. Câu đố nổi tiếng hỏi sáng hôm sau còn mấy cây; câu này hỏi ngay lúc này, nên 10 − 3 = 7 cây vẫn cháy.</p></details></li>
+        <li><p>Nói Lan không ăn cái nem cuối cùng là sai. Vậy ai đã ăn cái nem cuối cùng?</p><details><summary>Đáp án</summary><p><b>Lan</b>. Lan. &#x27;Nói Lan không ăn là sai&#x27; nghĩa là Lan có ăn.</p></details></li>
+        <li><p>Nếu một tuần tính từ thứ Hai đến Chủ nhật, ngày nào nằm chính giữa tuần?</p><details><summary>Đáp án</summary><p><b>Thứ Năm</b>. Tuần có 7 ngày nên ngày giữa là ngày thứ 4: thứ Hai, Ba, Tư, rồi thứ Năm, rồi Sáu, Bảy, Chủ nhật.</p></details></li>
+        <li><p>Trên Mặt Trăng, một phi hành gia buông tay khỏi quả bóng bay bơm khí heli thật chắc. Quả bóng…</p><details><summary>Đáp án</summary><p><b>Rơi xuống đất</b>. Rơi xuống. Bóng bay chỉ bay lên khi nhẹ hơn không khí xung quanh, mà Mặt Trăng làm gì có không khí.</p></details></li>
+        </ol>
+      </div>
+    </div>
+    <script type="application/json" id="demo-data">{"perRound": 5, "questions": [{"prompt": "Đội A ghi bàn mở tỉ số và cả bàn thắng cuối cùng của trận đấu. Đội A có thắng không?", "answers": [{"text": "Chắc chắn thắng", "correct": false}, {"text": "Chưa chắc", "correct": true}, {"text": "Chắc chắn không", "correct": false}, {"text": "Chắc chắn là hòa", "correct": false}], "why": "Chưa chắc. A dẫn 1–0, B ghi liền 3 bàn, rồi A ghi thêm 1: A có bàn đầu và bàn cuối nhưng vẫn thua 2–3."}, {"prompt": "Có 10 cây nến đang cháy. Bạn thổi tắt 3 cây. Còn mấy cây nến đang cháy?", "answers": [{"text": "3 cây", "correct": false}, {"text": "10 cây", "correct": false}, {"text": "0 cây", "correct": false}, {"text": "7 cây", "correct": true}], "why": "7 cây. Câu đố nổi tiếng hỏi sáng hôm sau còn mấy cây; câu này hỏi ngay lúc này, nên 10 − 3 = 7 cây vẫn cháy."}, {"prompt": "Nói Lan không ăn cái nem cuối cùng là sai. Vậy ai đã ăn cái nem cuối cùng?", "answers": [{"text": "Người khác, không phải Lan", "correct": false}, {"text": "Lan", "correct": true}, {"text": "Không ai cả", "correct": false}, {"text": "Không biết được", "correct": false}], "why": "Lan. 'Nói Lan không ăn là sai' nghĩa là Lan có ăn."}, {"prompt": "Nếu một tuần tính từ thứ Hai đến Chủ nhật, ngày nào nằm chính giữa tuần?", "answers": [{"text": "Thứ Tư", "correct": false}, {"text": "Thứ Năm", "correct": true}, {"text": "Thứ Sáu", "correct": false}, {"text": "Thứ Ba", "correct": false}], "why": "Tuần có 7 ngày nên ngày giữa là ngày thứ 4: thứ Hai, Ba, Tư, rồi thứ Năm, rồi Sáu, Bảy, Chủ nhật."}, {"prompt": "Trên Mặt Trăng, một phi hành gia buông tay khỏi quả bóng bay bơm khí heli thật chắc. Quả bóng…", "answers": [{"text": "Vọt lên thật nhanh", "correct": false}, {"text": "Bay lên từ từ", "correct": false}, {"text": "Lơ lửng đứng yên", "correct": false}, {"text": "Rơi xuống đất", "correct": true}], "why": "Rơi xuống. Bóng bay chỉ bay lên khi nhẹ hơn không khí xung quanh, mà Mặt Trăng làm gì có không khí."}, {"prompt": "Lan thắng trận đấu ba ván thắng hai với tỉ số 2–1, và cô thắng ván đầu tiên. Lan thua ván nào?", "answers": [{"text": "Ván thứ 3", "correct": false}, {"text": "Không biết được", "correct": false}, {"text": "Ván thứ 2", "correct": true}, {"text": "Ván thứ 1", "correct": false}], "why": "Ván 2. Nếu thắng luôn ván 2 thì trận kết thúc 2–0, không có ván 3. Vậy Lan thua ván 2, thắng ván 3."}, {"prompt": "Câu hỏi nào bạn không bao giờ có thể đáp \"Ừ\" mà vẫn là nói thật?", "answers": [{"text": "\"Bạn có đói không?\"", "correct": false}, {"text": "\"Bạn đang ngủ à?\"", "correct": true}, {"text": "\"Bạn còn thức à?\"", "correct": false}, {"text": "\"Bạn biết bơi không?\"", "correct": false}], "why": "\"Bạn đang ngủ à?\" Đã trả lời được tức là đang thức, nên đáp \"ừ\" thì chắc chắn là không thật."}, {"prompt": "Lúc thức, giây nào bạn cũng nhìn thấy nó, nhưng não lại giấu nó đi. Đó là gì?", "answers": [{"text": "Cái mũi", "correct": true}, {"text": "Đôi tai", "correct": false}, {"text": "Cái trán", "correct": false}, {"text": "Cái bóng", "correct": false}], "why": "Cái mũi. Nó luôn nằm trong tầm nhìn của hai mắt, nhưng não lọc nó đi. Nhắm một mắt lại mà xem: nó đây!"}, {"prompt": "Cái gì có 6 chân, 2 đầu, 4 tai và 2 bàn tay, nhưng chỉ đi bằng 4 chân?", "answers": [{"text": "Con kiến", "correct": false}, {"text": "Con nhện", "correct": false}, {"text": "Con ngựa và người cưỡi", "correct": true}, {"text": "Con bọ hung", "correct": false}], "why": "Ngựa có người cưỡi: 4 + 2 chân, 2 đầu, 4 tai, 2 tay của người cưỡi, và chỉ có 4 vó ngựa chạm đất."}, {"prompt": "Hanh khô mùa đông, chạm tay nắm cửa nào cũng bị giật tê. Mẹo nào đỡ đau?", "answers": [{"text": "Chộp thật nhanh", "correct": false}, {"text": "Chạm chìa khóa vào trước", "correct": true}, {"text": "Chạm từ từ bằng một đầu ngón tay", "correct": false}, {"text": "Xin lỗi cánh cửa", "correct": false}], "why": "Chìa khóa (hay đồng xu). Tia điện nhảy qua kim loại chứ không qua đầu ngón tay, nên gần như không thấy giật."}, {"prompt": "Bạn lỡ dán mật khẩu email vào nhóm chat lớp. Xử lý sao cho đúng?", "answers": [{"text": "Thu hồi tin nhắn là xong", "correct": false}, {"text": "Đổi mật khẩu ngay lập tức", "correct": true}, {"text": "Nhờ cả lớp đừng nhìn", "correct": false}, {"text": "Gửi thêm 10 mật khẩu giả cho rối", "correct": false}], "why": "Đổi mật khẩu ngay. Thu hồi tin không ăn thua nếu đã có người đọc hoặc thấy qua thông báo. Có mật khẩu mới thì cái bị lộ hết giá trị."}, {"prompt": "Bé Na thấy một con bướm bé xíu: \"Bướm con kìa! Mai mốt nó lớn.\" Nó có lớn thêm không?", "answers": [{"text": "Có, vài tuần nữa", "correct": false}, {"text": "Có, nếu hút đủ mật", "correct": false}, {"text": "Chỉ cánh lớn thêm", "correct": false}, {"text": "Không, nó đã lớn hết cỡ", "correct": true}], "why": "Không. Bướm chỉ lớn khi còn là sâu. Đã có cánh là hết lớn; con nhỏ chỉ là loài nhỏ thôi."}], "text": {"title": "Thử 5 câu ngay", "lead": "Không cần cài app. Đọc kỹ từng chữ nhé: câu nào cũng có bẫy.", "progress": "Câu {n}/{total}", "next": "Câu tiếp", "finish": "Xem kết quả", "why": "Vì sao?", "score": "Điểm vô tri", "wrong": "Sai {w}/{t} câu", "more": "Trong app còn hơn 5.000 câu như thế, kèm huy hiệu, đề hôm nay và thách đấu bạn bè.", "again": "Chơi lượt khác", "answer": "Đáp án", "nojs": "Xem thử vài câu bên dưới (bật JavaScript để chơi thật)."}, "reactions": {"correct": ["Ủa… đúng thật à?", "Tế bào não số 1 đã có mặt.", "Thông minh một cách đáng ngờ.", "Chính bạn cũng bất ngờ đúng không.", "Đúng. Đừng vì thế mà bay quá.", "Hôm nay con hamster chạy ngon."], "wrong": ["Lựa chọn táo bạo. Sai, nhưng táo bạo.", "Não bạn vừa ra ngoài uống cà phê.", "Tự tin: 100%. Chính xác: đang cập nhật.", "Thú vị. Rất thú vị.", "Wifi vừa rớt mạng một nhịp.", "Chưa đúng, nhưng năng lượng thì có."]}, "tiers": [{"title": "Tỉnh táo đáng ngờ", "max": 14, "image": "assets/web/tier-0.webp"}, {"title": "Hơi lag", "max": 34, "image": "assets/web/tier-1.webp"}, {"title": "Chế độ tiết kiệm pin", "max": 54, "image": "assets/web/tier-2.webp"}, {"title": "Wifi một vạch", "max": 74, "image": "assets/web/tier-3.webp"}, {"title": "Não đi nghỉ phép", "max": 94, "image": "assets/web/tier-4.webp"}, {"title": "Vô tri tối thượng", "max": 100, "image": "assets/web/tier-5.webp"}]}</script>
   </section>
 
   <section id="cach-choi" class="block">
@@ -103,42 +126,42 @@
     <h2 class="label pink">Có gì trong app?</h2>
     <ul class="features">
         <li class="feature">
-          <img src="assets/sticker-swirl.png" width="56" height="56" alt="" loading="lazy">
+          <img src="assets/web/sticker-swirl.webp" width="56" height="56" alt="" loading="lazy">
           <h3>Hơn 5.000 câu</h3>
           <p>Đố mẹo, câu lừa, logic, tình huống vô tri và kiến thức “ủa thật hả?”.</p>
         </li>
         <li class="feature">
-          <img src="assets/sticker-bolt.png" width="56" height="56" alt="" loading="lazy">
+          <img src="assets/web/sticker-bolt.webp" width="56" height="56" alt="" loading="lazy">
           <h3>Độ xoắn não</h3>
           <p>Mỗi lượt 2 câu dễ, 4 câu vừa, 4 câu khó. Có biểu tượng 🔥 báo trước.</p>
         </li>
         <li class="feature">
-          <img src="assets/sticker-question.png" width="56" height="56" alt="" loading="lazy">
+          <img src="assets/web/sticker-question.webp" width="56" height="56" alt="" loading="lazy">
           <h3>Giải thích “Vì sao?”</h3>
           <p>Câu khó nào cũng có lời giải ngắn, đọc xong là “à ra thế”.</p>
         </li>
         <li class="feature">
-          <img src="assets/sticker-star.png" width="56" height="56" alt="" loading="lazy">
+          <img src="assets/web/sticker-star.webp" width="56" height="56" alt="" loading="lazy">
           <h3>Đề hôm nay &amp; chuỗi ngày</h3>
           <p>Cả thế giới chung 10 câu mỗi ngày. Giữ chuỗi 🔥, có nhắc nhở nếu muốn.</p>
         </li>
         <li class="feature">
-          <img src="assets/sticker-sparkle.png" width="56" height="56" alt="" loading="lazy">
+          <img src="assets/web/sticker-sparkle.webp" width="56" height="56" alt="" loading="lazy">
           <h3>26 huy hiệu</h3>
           <p>Sưu tập danh hiệu, cột mốc và cả huy hiệu bí mật.</p>
         </li>
         <li class="feature">
-          <img src="assets/sticker-sock.png" width="56" height="56" alt="" loading="lazy">
+          <img src="assets/web/sticker-sock.webp" width="56" height="56" alt="" loading="lazy">
           <h3>Widget màn hình chính</h3>
           <p>Xem nhanh chuỗi ngày và đề hôm nay, chạm là vào chơi.</p>
         </li>
         <li class="feature">
-          <img src="assets/sticker-exclaim.png" width="56" height="56" alt="" loading="lazy">
+          <img src="assets/web/sticker-exclaim.webp" width="56" height="56" alt="" loading="lazy">
           <h3>Thách đấu offline</h3>
           <p>Mã 8 ký tự hoặc QR, dán cả tin nhắn vào là app tự tìm mã.</p>
         </li>
         <li class="feature">
-          <img src="assets/sticker-drop.png" width="56" height="56" alt="" loading="lazy">
+          <img src="assets/web/sticker-drop.webp" width="56" height="56" alt="" loading="lazy">
           <h3>Riêng tư tuyệt đối</h3>
           <p>Không tài khoản, không theo dõi. Mọi thứ nằm trên máy bạn.</p>
         </li>
@@ -149,6 +172,7 @@
     <div>
       <h2 class="label purple">Sai cũng được, miễn là vui</h2>
       <p class="block-lead">Mascot não hồng phản ứng với từng câu trả lời. Câu khó có lời giải, chơi xong mở khoá huy hiệu mới.</p>
+      <ul class="checks"><li>Mascot đổi nét mặt theo từng câu trả lời</li><li>Câu khó nào cũng có lời giải “Vì sao?”</li><li>Chơi xong mở khoá huy hiệu mới</li></ul>
     </div>
     <div class="showcase-phones">
         <figure>
@@ -165,12 +189,12 @@
   <section class="block">
     <h2 class="label">Bạn sẽ là ai?</h2>
     <div class="tiers">
-        <figure><img src="assets/tier-0.png" width="120" height="120" loading="lazy" alt=""><figcaption>Tỉnh táo đáng ngờ<br><span class="score">0–14</span></figcaption></figure>
-        <figure><img src="assets/tier-1.png" width="120" height="120" loading="lazy" alt=""><figcaption>Hơi lag<br><span class="score">15–34</span></figcaption></figure>
-        <figure><img src="assets/tier-2.png" width="120" height="120" loading="lazy" alt=""><figcaption>Chế độ tiết kiệm pin<br><span class="score">35–54</span></figcaption></figure>
-        <figure><img src="assets/tier-3.png" width="120" height="120" loading="lazy" alt=""><figcaption>Wifi một vạch<br><span class="score">55–74</span></figcaption></figure>
-        <figure><img src="assets/tier-4.png" width="120" height="120" loading="lazy" alt=""><figcaption>Não đi nghỉ phép<br><span class="score">75–94</span></figcaption></figure>
-        <figure><img src="assets/tier-5.png" width="120" height="120" loading="lazy" alt=""><figcaption>Vô tri tối thượng<br><span class="score">95–100</span></figcaption></figure>
+        <figure><img src="assets/web/tier-0.webp" width="120" height="120" loading="lazy" alt=""><figcaption>Tỉnh táo đáng ngờ<br><span class="score">0–14</span></figcaption></figure>
+        <figure><img src="assets/web/tier-1.webp" width="120" height="120" loading="lazy" alt=""><figcaption>Hơi lag<br><span class="score">15–34</span></figcaption></figure>
+        <figure><img src="assets/web/tier-2.webp" width="120" height="120" loading="lazy" alt=""><figcaption>Chế độ tiết kiệm pin<br><span class="score">35–54</span></figcaption></figure>
+        <figure><img src="assets/web/tier-3.webp" width="120" height="120" loading="lazy" alt=""><figcaption>Wifi một vạch<br><span class="score">55–74</span></figcaption></figure>
+        <figure><img src="assets/web/tier-4.webp" width="120" height="120" loading="lazy" alt=""><figcaption>Não đi nghỉ phép<br><span class="score">75–94</span></figcaption></figure>
+        <figure><img src="assets/web/tier-5.webp" width="120" height="120" loading="lazy" alt=""><figcaption>Vô tri tối thượng<br><span class="score">95–100</span></figcaption></figure>
     </div>
   </section>
 
@@ -201,10 +225,13 @@
   </section>
 
   <section class="block final">
-    <img src="assets/tier-5.png" width="160" height="160" alt="" loading="lazy">
+    <img src="assets/web/tier-5.webp" width="160" height="160" alt="" loading="lazy">
     <h2>Sẵn sàng cho não đi nghỉ phép?</h2>
-    <p>Đo Độ Ngu sắp có mặt trên App Store. Trong lúc chờ, hãy đoán xem bạn được mấy điểm vô tri.</p>
-    <span class="button app-store" role="link" aria-disabled="true"><img src="assets/sticker-star.png" width="24" height="24" alt="">Sắp có trên App Store</span>
+    <p>Đo Độ Ngu sắp có mặt trên App Store. Trong lúc chờ, thử 5 câu xem bạn được mấy điểm vô tri.</p>
+    <div class="cta-row final-cta">
+      <a class="button" href="#thu-ngay">Thử 5 câu ngay</a>
+      <span class="button app-store" role="link" aria-disabled="true"><img src="assets/web/sticker-star.webp" width="24" height="24" alt="">Sắp có trên App Store</span>
+    </div>
   </section>
 </main>
 
