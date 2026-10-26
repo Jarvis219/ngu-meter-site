@@ -9,6 +9,9 @@ import hashlib, html, json, os, re
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 BASE = "https://jarvis219.github.io/ngu-meter-site/"
 EMAIL = "jarvis.219.studio@gmail.com"
+APP_ID = "6824421704"
+APP_STORE = {"vi": f"https://apps.apple.com/vn/app/ngu-meter-brain-twister-quiz/id{APP_ID}",
+             "en": f"https://apps.apple.com/app/ngu-meter-brain-twister-quiz/id{APP_ID}"}  # no region: Apple picks the visitor's store
 SCREEN_W, SCREEN_H = 560, 1217   # assets/screens/*.webp (iPhone 6.9" captures)
 CARD_W, CARD_H = 540, 960         # share card
 CONTENT = os.path.join(ROOT, "..", "ngu-meter", "NguMeter", "Resources", "content.json")
@@ -28,7 +31,7 @@ COPY = {
         "eyebrow": "Game đố vui cho iPhone & iPad",
         "h1": "Não bạn đang <mark>đi&nbsp;nghỉ&nbsp;phép</mark>?",
         "lead": "10 câu đố mẹo, câu lừa và câu xoắn não. Khoảng 1 phút. Một kết quả rất đáng ngờ, kèm danh hiệu để khoe với cả nhóm.",
-        "cta": "Sắp có trên App Store", "cta2": "Thử 5 câu ngay",
+        "cta": "Tải trên App Store", "cta2": "Thử 5 câu ngay",
         "chips": ["Miễn phí", "Không quảng cáo", "Không cần mạng", "Tiếng Việt & English"],
         "demo": {
             "title": "Thử 5 câu ngay", "lead": "Không cần cài app. Đọc kỹ từng chữ nhé: câu nào cũng có bẫy.",
@@ -76,7 +79,7 @@ COPY = {
             ("Chơi được trên iPad không?", "Được. App hỗ trợ cả iPhone và iPad, xoay ngang dọc thoải mái trên iPad."),
         ],
         "final_title": "Sẵn sàng cho não đi nghỉ phép?",
-        "final_lead": "Đo Độ Ngu sắp có mặt trên App Store. Trong lúc chờ, thử 5 câu xem bạn được mấy điểm vô tri.",
+        "final_lead": "Đo Độ Ngu đã có trên App Store, miễn phí. Hoặc thử 5 câu ngay tại đây xem bạn được mấy điểm vô tri.",
         "footer_privacy": "Quyền riêng tư", "footer_support": "Hỗ trợ",
         "disclaimer": "Chỉ để giải trí, không phải bài kiểm tra IQ.",
         "skip": "Bỏ qua tới nội dung",
@@ -92,7 +95,7 @@ COPY = {
         "eyebrow": "A silly quiz for iPhone & iPad",
         "h1": "Is your brain <mark>on&nbsp;vacation</mark>?",
         "lead": "10 riddles, trick questions and brain twisters. About a minute. One very questionable result, plus a title to show off to the group chat.",
-        "cta": "Coming soon to the App Store", "cta2": "Try 5 questions",
+        "cta": "Download on the App Store", "cta2": "Try 5 questions",
         "chips": ["Free", "No ads", "Works offline", "English & Tiếng Việt"],
         "demo": {
             "title": "Try 5 questions now", "lead": "No install needed. Read every word: each one has a trap.",
@@ -140,7 +143,7 @@ COPY = {
             ("Does it work on iPad?", "Yes. It supports iPhone and iPad, in any orientation on iPad."),
         ],
         "final_title": "Ready to send your brain on vacation?",
-        "final_lead": "Ngu Meter is coming soon to the App Store. Meanwhile, try 5 questions and see your chaos score.",
+        "final_lead": "Ngu Meter is out now on the App Store, free. Or try 5 questions right here and see your chaos score.",
         "footer_privacy": "Privacy", "footer_support": "Support",
         "disclaimer": "For entertainment only, not an IQ test.",
         "skip": "Skip to content",
@@ -215,6 +218,7 @@ def page(lang):
         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
         "author": {"@type": "Person", "name": "Jarvis Tran"},
         "isAccessibleForFree": True,
+        "downloadUrl": APP_STORE[lang], "installUrl": APP_STORE[lang],
     }
     faq_ld = {"@context": "https://schema.org", "@type": "FAQPage",
               "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in c["faq"]]}
@@ -280,6 +284,7 @@ def page(lang):
 <meta name="twitter:image" content="{BASE}assets/og-{lang}.png">
 <link rel="icon" type="image/png" sizes="32x32" href="{up}assets/favicon-32.png">
 <link rel="apple-touch-icon" href="{up}assets/apple-touch-icon.png">
+<meta name="apple-itunes-app" content="app-id={APP_ID}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
@@ -310,8 +315,8 @@ def page(lang):
       <h1>{c['h1']}</h1>
       <p class="lead">{esc(c['lead'])}</p>
       <div class="cta-row">
+        <a class="button app-store" href="{APP_STORE[lang]}"><img src="{up}assets/web/sticker-star.webp" width="24" height="24" alt="">{esc(c['cta'])}</a>
         <a class="button" href="#{c['nav'][0][0]}">{esc(c['cta2'])}</a>
-        <span class="button app-store" role="link" aria-disabled="true"><img src="{up}assets/web/sticker-star.webp" width="24" height="24" alt="">{esc(c['cta'])}</span>
       </div>
       <ul class="chips">{chips}</ul>
     </div>
@@ -369,8 +374,8 @@ def page(lang):
     <h2>{esc(c['final_title'])}</h2>
     <p>{esc(c['final_lead'])}</p>
     <div class="cta-row final-cta">
+      <a class="button app-store" href="{APP_STORE[lang]}"><img src="{up}assets/web/sticker-star.webp" width="24" height="24" alt="">{esc(c['cta'])}</a>
       <a class="button" href="#{c['nav'][0][0]}">{esc(c['cta2'])}</a>
-      <span class="button app-store" role="link" aria-disabled="true"><img src="{up}assets/web/sticker-star.webp" width="24" height="24" alt="">{esc(c['cta'])}</span>
     </div>
   </section>
 </main>
@@ -395,7 +400,7 @@ if __name__ == "__main__":
         text = re.sub(r'(assets/style\.css)(\?v=[0-9a-f]+)?"', rf'\1?v={CSS_VERSION}"', open(path).read())
         open(path, "w").write(text)
     pages = ["", "en/", "privacy/", "support/"]
-    sitemap = "".join(f"  <url><loc>{BASE}{p}</loc><lastmod>2026-10-16</lastmod></url>\n" for p in pages)
+    sitemap = "".join(f"  <url><loc>{BASE}{p}</loc><lastmod>2026-10-26</lastmod></url>\n" for p in pages)
     open(os.path.join(ROOT, "sitemap.xml"), "w").write(
         f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sitemap}</urlset>\n')
     print("pages built")
